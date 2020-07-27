@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数-案例</title>
+    <script>
+        //案例1：利用函数封装的方式，翻转任意一个数组 
+        function reverse(arr) {
+            var newArr = [];
+            for (var i = arr.length - 1; i >= 0; i--) {
+                newArr[newArr.length] = arr[i];
+            }
+            return newArr;
+
+        }
+        var arr1 = reverse([1, 3, 4, 6, 9]);
+        console.log(arr1);
+        var arr2 = reverse(['red', 'pink', 'blue']);
+        console.log(arr2);
+        //案例2：利用函数封装的方式，对数组排序--冒泡排序
+        function sort(arr) {
+            for (var i = 0; i < arr.length - 1; i++) {
+                for (var j = 0; j < arr.length - i - 1; j++) {
+                    if (arr[j] > arr[j + 1]) {
+                        var temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
+            }
+            return arr;
+
+        }
+        var arr1 = sort([1, 4, 2, 9]);
+        console.log(arr1);
+        //案例3：判断闰年
+        function isRunYear(year) {
+            //如果是闰年我们返回true否则返回false
+            var flag = false;
+            if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+                flag = true;
+            }
+            return flag;
+
+        }
+        console.log(isRunYear(2000));
+        //案例4：用户输入年份，输出当前年份2月份的天数。
+        function backDay() {
+            var year = prompt('请您输入年份');
+            if (isRunYear(year)) {
+                alert('当前年份是闰年2月有29天')
+            } else {
+                alert('当前年份是平年2月有28天')
+            }
+        }
+        backDay();
+
+        function isRunYear(year) {
+            //如果是闰年我们返回true否则返回false
+            var flag = false;
+            if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+                flag = true;
+            }
+            return flag;
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
