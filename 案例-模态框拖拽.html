@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a {
+            position: absolute;
+            left: 50%;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            margin-top: 30px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #000;
+            transform: translate(-50%, -50%);
+        }
+
+
+        .cover {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: #999;
+        }
+
+        .cover .login {
+            display: none;
+            width: 512px;
+            height: 280px;
+            position: fixed;
+            border: 1px solid #ebebeb;
+            left: 50%;
+            top: 50%;
+            background-color: skyblue;
+            box-shadow: 0px 0px 20px #ddd;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+
+        .login .hd {
+            height: 60px;
+            line-height: 60px;
+            border-bottom: 1px solid rgba(0, 0, 0, .5);
+            cursor: move;
+            text-align: center;
+        }
+
+        .login .bd {
+
+
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+        }
+
+        .login .close {
+            position: absolute;
+            top: -5%;
+            left: 95%;
+            width: 40px;
+            height: 40px;
+            background-color: #fff;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            line-height: 40px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="#">点击登录</a>
+    <!--遮罩层-->
+    <div class="cover">
+        <div class="login">
+            <div class="hd">登录</div>
+
+            <div class="login_input">
+                <label for="">用户名:</label>
+                <input type="text" placeholder="请输入用户名" name="info[username]" id="username" class="text1">
+            </div>
+            <div class="login_input">
+                <label for="">登录密码:</label>
+                <input type="password" placeholder="请输入登录密码" name="info[password]" id="username" class="text2">
+            </div>
+            <button>登录</button>
+            <div class="close">关闭</div>
+        </div>
+
+    </div>
+    <script>
+        //点击弹出层，会弹出模态框，并且显示灰色半透明的遮罩层
+        //点击关闭按钮，可以关闭模态框，同时关闭半透明的遮罩层
+        //鼠标放到模态框最上面一行，可以按住鼠标拖拽模态框在页面内移动
+        //鼠标松开可以停止拖动模态框移动
+        var login = document.querySelector('.login');
+        var hd = document.querySelector('.hd');
+
+        // 鼠标按下后拖动
+        hd.addEventListener('mousedown', function (e) {
+            // 获取鼠标按下后，鼠标在盒子内的坐标，在移动过程中保持不变
+            var x = e.pageX - login.offsetLeft;//鼠标坐标减去模态框盒子距页面左边的距离
+            var y = e.pageY - login.offsetTop;//鼠标坐标减去模态框盒子距页面上方的距离  
+
+            // 改变login的left和top值
+            function move(e) {
+                login.style.left = e.pageX - x + 'px';
+                login.style.top = e.pageY - y + 'px';
+            }
+
+            // 为document添加鼠标移动事件，可以在整个页面范围拖动，而不是hd
+            document.addEventListener('mousemove', move);
+
+            // 鼠标松开后，不再能拖动，取消事件
+            document.addEventListener('mouseup', function () {
+                document.removeEventListener('mousemove', move);
+            });
+        });
+
+        // 显示和关闭登录框
+        var a = document.querySelector('a');
+        var cover = document.querySelector('.cover');
+        var close = document.querySelector('.close');
+        a.addEventListener('click', function () {
+            login.style.display = 'block';
+            cover.style.display = 'block';
+        });
+        close.addEventListener('click', function () {
+            login.style.display = 'none';
+            cover.style.display = 'none';
+            // 复原登录框的位置
+            login.style.left = '50%';
+            login.style.top = '50%';
+        });
+    </script>
+</body>
+
+</html>

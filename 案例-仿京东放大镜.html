@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .preview_img {
+            position: relative;
+            height: 350px;
+            width: 350px;
+            border: 1px solid black;
+        }
+
+        .preview_img img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .mask {
+            display: none;
+            position: absolute;
+            top: 0px;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            background-color: #fede4f;
+            opacity: 50%;
+            border: 1px solid #ccc;
+            cursor: move;
+        }
+
+        .big {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 400px;
+            width: 500px;
+            height: 500px;
+            background-color: pink;
+            border: 1px solid #ccc;
+            overflow: hidden;
+
+        }
+
+        .big img {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!--预览模块-->
+    <div class="preview_img">
+        <img src="../image/pic_small.jpg" alt="">
+        <div class="mask"></div>
+        <div class="big">
+            <img src="../image/pic_big.jpg" alt="" class="bigImg">
+        </div>
+    </div>
+    <script>
+
+        //案例分析
+        //鼠标经过小图片盒子 黄色遮罩和大图片显示出来
+        //黄色遮挡层跟随鼠标
+        //移动黄色遮挡层，大图片跟随移动功能
+
+        window.addEventListener('load', function () {
+            var preview_img = document.querySelector('.preview_img');
+            var mask = document.querySelector('.mask');
+            var big = document.querySelector('.big');
+            //1.当我们鼠标经过preview_img就显示和隐藏mask遮罩和big大盒子
+            preview_img.addEventListener('mouseover', function () {
+                mask.style.display = 'block';
+                big.style.display = 'block';
+            })
+            preview_img.addEventListener('mouseout', function () {
+                mask.style.display = 'none';
+                big.style.display = 'none';
+            })
+            preview_img.addEventListener('mousemove', function (e) {
+                //1.先计算出鼠标在盒子内的坐标
+                var x = e.pageX - this.offsetLeft;
+                var y = e.pageY - this.offsetTop;
+                //2.减去盒子高度的一半是100 就是我们Mask盒子最终的 left和 top值
+                //3.我们mask移动的距离
+                var maskX = x - mask.offsetWidth / 2;
+                var maskY = y - mask.offsetHeight / 2;
+                //4.如果x坐标小于0，就让他停在0的位置
+                //遮挡层的最大移动距离
+                var maskMax = preview_img.offsetWidth - mask.offsetWidth
+                if (maskX <= 0) {
+                    maskX = 0
+                } else if (maskX >= maskMax) {
+                    maskX = maskMax;
+
+                }
+                if (maskY <= 0) {
+                    maskY = 0
+                } else if (maskY >= maskMax) {
+                    maskY = maskMax;
+
+                }
+                mask.style.left = maskX + 'px';
+                mask.style.top = maskY + 'px';
+                var bigImg = document.querySelector('.bigImg');
+                //大图片的最大移动距离
+                var big = document.querySelector('.big');
+                var bigMax = bigImg.offsetWidth - big.offsetWidth;
+                //大图片的移动距离 X Y
+                var bigX = maskX * bigMax / maskMax;
+                var bigY = maskY * bigMax / maskMax;
+
+                bigImg.style.left = -bigX + 'px';
+                bigImg.style.top = -bigY + 'px';
+            })
+        })
+        //大图片的移动距离=遮挡层移动距离*大图片最大移动距离/遮挡层最大移动距离
+        //大图
+
+    </script>
+</body>
+
+</html>
